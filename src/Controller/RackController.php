@@ -15,9 +15,13 @@ class RackController extends AbstractApiController
      */
     public function postStatus(Request $request, LoggerInterface $logger): Response
     {
+        /** @var TTNWebhookData $ttnData */
         $ttnData = $this->deserializeModel($request, TTNWebhookData::class);
 
-        $logger->info('Data received', ['data' => $ttnData]);
+        $logger->info('Data received from {device} for app {app_id}', [
+            'app_id' => $ttnData->appId,
+            'device' => $ttnData->devId,
+        ]);
 
         $responseData = ['status' => 'OK'];
 

@@ -11,10 +11,13 @@ class TTNWebhookData
     public string $hardwareSerial;
     public int $port;
     public int $counter;
-    public string $payload;
 
     public bool $isRetry;
     public bool $confirmed;
+
+    public string $payloadRaw;
+
+    // public Metadata
 
     public string $downlinkUrl;
 }
