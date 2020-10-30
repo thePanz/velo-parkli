@@ -21,6 +21,9 @@ class RackController extends AbstractApiController
         $logger->info('Data received from {device} for app {app_id}', [
             'app_id' => $ttnData->appId,
             'device' => $ttnData->devId,
+            'payload' => $ttnData->payloadRaw,
+            'payload-decoded' => base64_decode($ttnData->payloadRaw),
+            'payload-fields' => $ttnData->payloadFields ?? 'null',
         ]);
 
         $responseData = ['status' => 'OK'];

@@ -16,6 +16,7 @@ class TTNWebhookData
     public bool $confirmed;
 
     public string $payloadRaw;
+    public array $payloadFields;
 
     // public Metadata
 
