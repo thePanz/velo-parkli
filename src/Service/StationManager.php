@@ -56,15 +56,15 @@ class StationManager
         $rackData = $this->createRackDataFromPayload($ttnData);
         $point = new Point(
             'bike_rack_free',
-            $rackData->occupied ? 1 : 0,
-            $tags = [],
+            $rackData->occupied ? 0 : 1,
+            $tags = [
+                'station_id' => 'station-'.$rackData->stationId,
+                'rack_id' => 'rack-'.$rackData->rackId,
+            ],
             [
-                'station_id' => $rackData->stationId,
-                'rack_id' => $rackData->rackId,
                 'distance' => $rackData->distance,
             ]
         );
-
 
         $this->influxManager->writePoint($point);
     }

@@ -5,6 +5,7 @@
     "php": "^7.4",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "ext-json": "*",
     "doctrine/annotations": "^1.11",
     "influxdb/influxdb-php": "^1.15",
     "phpdocumentor/reflection-docblock": "^5.2",

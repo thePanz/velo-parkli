@@ -34,7 +34,7 @@ class StationController extends AbstractApiController
             'device' => $ttnData->devId,
             'payload' => $ttnData->payloadRaw,
             'payload-decoded' => base64_decode($ttnData->payloadRaw),
-            'payload-fields' => $ttnData->payloadFields ?? 'null',
+            'payload-fields' => json_encode($ttnData->payloadFields, JSON_THROW_ON_ERROR),
         ]);
 
         $this->rackManager->update($ttnData);
