@@ -26,6 +26,9 @@ class StationManager
     private const DEVICE_STATION_MAP = [
         'ttgo1' => '558',
         'ttgo2' => '558',
+        'station-1.1' => '1',
+        'station-1.2' => '1',
+        'station-2' => '2',
     ];
 
     public function __construct(InfluxManager $influxManager)
