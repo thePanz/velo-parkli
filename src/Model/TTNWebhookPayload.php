@@ -4,7 +4,7 @@
 namespace App\Model;
 
 
-class TTNWebhookData
+class TTNWebhookPayload
 {
     public string $appId;
     public string $devId;
@@ -16,7 +16,7 @@ class TTNWebhookData
     public bool $confirmed;
 
     public string $payloadRaw;
-    public array $payloadFields;
+    public PayloadFields $payloadFields;
 
     // public Metadata
 

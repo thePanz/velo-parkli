@@ -29,3 +29,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    InfluxDB\Client:
+        arguments: ['%env(INFLUXDB_HOST)%']
+
+    App\Service\InfluxManager:
+        $databaseName: '%env(INFLUXDB_DATABASE)%'

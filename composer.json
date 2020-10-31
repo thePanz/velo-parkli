@@ -6,6 +6,7 @@
     "ext-ctype": "*",
     "ext-iconv": "*",
     "doctrine/annotations": "^1.11",
+    "influxdb/influxdb-php": "^1.15",
     "phpdocumentor/reflection-docblock": "^5.2",
     "symfony/console": "5.1.*",
     "symfony/dotenv": "5.1.*",
