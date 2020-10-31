@@ -10,7 +10,9 @@ class StationStatus
     public int $freeRacks;
     public string $category;
     public string $name;
-
+    public string $position;
+    public string $poiId;
+    
     public function __construct(string $id, int $freeRacks)
     {
         $this->id = $id;

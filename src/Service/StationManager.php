@@ -105,6 +105,8 @@ class StationManager
         $stationStatus->notes = 'öffentlicher Grund';
         $stationStatus->category = 'Zweirad';
         $stationStatus->name = 'Velo';
+        $stationStatus->position = 'POINT (2681466 1248873)';
+        $stationStatus->poiId = 'vap558';
 
         return $stationStatus;
     }
