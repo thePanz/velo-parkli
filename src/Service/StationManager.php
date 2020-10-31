@@ -4,9 +4,11 @@
 namespace App\Service;
 
 
+use App\Entity\StationRack;
 use App\Model\RackData;
 use App\Model\StationStatus;
 use App\Model\TTNWebhookPayload;
+use App\Repository\StationRackRepository;
 use InfluxDB\Point;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -31,9 +33,12 @@ class StationManager
         'station-2' => '2',
     ];
 
-    public function __construct(InfluxManager $influxManager)
+    private StationRackRepository $rackRepository;
+
+    public function __construct(InfluxManager $influxManager, StationRackRepository $rackRepository)
     {
         $this->influxManager = $influxManager;
+        $this->rackRepository = $rackRepository;
     }
 
     public function createRackDataFromPayload(TTNWebhookPayload $payload): RackData
@@ -54,6 +59,30 @@ class StationManager
     public function update(TTNWebhookPayload $ttnData): void
     {
         $rackData = $this->createRackDataFromPayload($ttnData);
+
+        $this->updateDatabase($rackData);
+
+    }
+
+    private function updateDatabase(RackData $rackData): void
+    {
+        $entity = $this->rackRepository->findOneBy(['stationName' => $rackData->stationId, 'number' => $rackData->rackId]);
+        if (!$entity) {
+            $entity = (new StationRack())
+                ->setStationName($rackData->stationId)
+                ->setNumber($rackData->rackId)
+            ;
+        }
+
+        if (null !== $rackData->occupied) {
+            $entity->setFree(!$rackData->occupied);
+        }
+
+        $this->rackRepository->save($entity);
+    }
+
+    private function updateInflux(RackData $rackData): void
+    {
         $point = new Point(
             'bike_rack_free',
             $rackData->occupied ? 0 : 1,
@@ -66,15 +95,16 @@ class StationManager
             ]
         );
 
+
         $this->influxManager->writePoint($point);
     }
 
-    public function getStation(string $id): StationStatus
+    public function getStationStatus(string $id): StationStatus
     {
-        $stationStatus = new StationStatus($id);
+        $stationStatus = new StationStatus($id, $this->rackRepository->getFreeRaksForStation($id));
         $stationStatus->notes = 'öffentlicher Grund';
-
-        $this->influxManager->query($stationStatus);
+        $stationStatus->category = 'Zweirad';
+        $stationStatus->name = 'Velo';
 
         return $stationStatus;
     }

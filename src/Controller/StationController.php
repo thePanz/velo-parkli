@@ -53,7 +53,7 @@ class StationController extends AbstractApiController
      */
     public function getStationStatus(string $id): Response
     {
-        $stationStatus = $this->rackManager->getStation($id);
+        $stationStatus = $this->rackManager->getStationStatus($id);
 
         return $this->json($stationStatus);
     }
