@@ -14,6 +14,10 @@ docker-build:
 docker-up:
 	docker-compose up
 
+.PHONY: docker-up-daemon
+docker-up-daemon:
+	docker-compose up -d
+
 .PHONY: docker-down
 docker-down:
 	docker-compose down

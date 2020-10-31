@@ -1,0 +1,45 @@
+version: "3.4"
+
+services:
+  php:
+    build:
+      context: .
+      target: symfony_php
+      args:
+        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+        STABILITY: ${STABILITY:-stable}
+    restart: unless-stopped
+    # healthcheck:
+    #   interval: 10s
+    #   timeout: 3s
+    #   retries: 3
+    #   start_period: 30s
+    environment:
+      SYMFONY_VERSION:
+
+  caddy:
+    build:
+      context: .
+      target: symfony_caddy
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-localhost}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+
+  influxdb:
+    image: influxdb:1.7-alpine
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+    - 3000:3000
+
+volumes:
+  caddy_data:
+  caddy_config:
